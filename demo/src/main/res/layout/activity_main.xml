@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lava="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab_top_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/margin_normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        lava:lavaBackgroundColor="@color/color_pink"
+        lava:lavaChild="left|right"
+        lava:lavaLeftIcon="@drawable/ic_html"
+        lava:lavaParentIcon="@drawable/ic_android"
+        lava:lavaParentSize="@dimen/fab_size"
+        lava:lavaRightIcon="@drawable/ic_cpp" />
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab_top_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        lava:lavaBackgroundColor="@color/color_orange"
+        lava:lavaBottomIcon="@drawable/ic_html"
+        lava:lavaChild="bottom|left"
+        lava:lavaLeftBottomIcon="@drawable/ic_javascript"
+        lava:lavaLeftIcon="@drawable/ic_python"
+        lava:lavaParentIcon="@drawable/ic_android"
+        lava:lavaParentSize="@dimen/fab_size" />
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lava_fab_left_center"
+        app:layout_constraintTop_toTopOf="parent"
+        lava:lavaBottomIcon="@drawable/ic_html"
+        lava:lavaChild="all"
+        lava:lavaLeftBottomIcon="@drawable/ic_javascript"
+        lava:lavaLeftIcon="@drawable/ic_python"
+        lava:lavaLeftTopIcon="@drawable/ic_kotlin"
+        lava:lavaParentIcon="@drawable/ic_android"
+        lava:lavaParentSize="@dimen/fab_size"
+        lava:lavaRightBottomIcon="@drawable/ic_swift"
+        lava:lavaRightIcon="@drawable/ic_cpp"
+        lava:lavaRightTopIcon="@drawable/ic_git"
+        lava:lavaTopIcon="@drawable/ic_java" />
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab_bottom_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        lava:lavaBackgroundColor="@color/color_red"
+        lava:lavaChild="right|left|top"
+        lava:lavaLeftIcon="@drawable/ic_java"
+        lava:lavaParentIcon="@drawable/ic_android"
+        lava:lavaParentSize="@dimen/fab_size"
+        lava:lavaRightIcon="@drawable/ic_cpp"
+        lava:lavaTopIcon="@drawable/ic_kotlin" />
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab_bottom_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        lava:lavaChild="top|left|leftTop"
+        lava:lavaLeftIcon="@drawable/ic_python"
+        lava:lavaLeftTopIcon="@drawable/ic_swift"
+        lava:lavaParentIcon="@drawable/ic_android"
+        lava:lavaParentSize="@dimen/fab_size"
+        lava:lavaTopIcon="@drawable/ic_java" />
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab_left_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        lava:lavaBackgroundColor="@color/color_green"
+        lava:lavaBottomIcon="@drawable/ic_html"
+        lava:lavaChild="top|bottom"
+        lava:lavaParentIcon="@drawable/ic_android"
+        lava:lavaParentSize="@dimen/fab_size"
+        lava:lavaTopIcon="@drawable/ic_java" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LavaFab">
+        <item name="lavaParentSize">@dimen/default_fab_size</item>
+        <item name="lavaBackgroundColor">?attr/colorAccent</item>
+    </style>
+</resources>

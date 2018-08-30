@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1c203c</color>
+    <color name="colorPrimaryDark">#14172c</color>
+    <color name="colorAccent">#2b77ca</color>
+
+    <color name="window_background">#2b3054</color>
+    <color name="icon_color">#eee</color>
+
+    <color name="color_green">#27a467</color>
+    <color name="color_orange">#d95d1e</color>
+    <color name="color_purple">#a12cb8</color>
+    <color name="color_red">#c63828</color>
+    <color name="color_pink">#af297b</color>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LavaFab">
+        <attr name="lavaParentIcon" format="reference"/>
+        <attr name="lavaLeftIcon" format="reference"/>
+        <attr name="lavaLeftTopIcon" format="reference"/>
+        <attr name="lavaTopIcon" format="reference"/>
+        <attr name="lavaRightTopIcon" format="reference"/>
+        <attr name="lavaRightIcon" format="reference"/>
+        <attr name="lavaRightBottomIcon" format="reference"/>
+        <attr name="lavaBottomIcon" format="reference"/>
+        <attr name="lavaLeftBottomIcon" format="reference"/>
+        <attr name="lavaParentSize" format="dimension"/>
+        <attr name="lavaBackgroundColor" format="color"/>
+        <attr name="lavaDrawShadow" format="boolean"/>
+        <attr name="lavaChild" format="flags">
+            <flag name="top" value="1" />
+            <flag name="right" value="2" />
+            <flag name="bottom" value="4" />
+            <flag name="left" value="8" />
+            <flag name="leftTop" value="16" />
+            <flag name="rightTop" value="32" />
+            <flag name="rightBottom" value="64" />
+            <flag name="leftBottom" value="128" />
+            <flag name="none" value="0" />
+            <flag name="all" value="255" />
+        </attr>
+    </declare-styleable>
+</resources>
