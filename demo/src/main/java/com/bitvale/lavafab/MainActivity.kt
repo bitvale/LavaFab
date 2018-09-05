@@ -22,46 +22,46 @@ class MainActivity : AppCompatActivity() {
 
         with(lava_fab_center) {
             setParentOnClickListener { lava_fab_center.trigger() }
-            setChildOnClickListener(Child.CHILD_TOP) { showToast() }
-            setChildOnClickListener(Child.CHILD_RIGHT_TOP) { showToast() }
-            setChildOnClickListener(Child.CHILD_RIGHT) { showToast() }
-            setChildOnClickListener(Child.CHILD_RIGHT_BOTTOM) { showToast() }
-            setChildOnClickListener(Child.CHILD_BOTTOM) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT_BOTTOM) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT_TOP) { showToast() }
+            setChildOnClickListener(Child.TOP) { showToast() }
+            setChildOnClickListener(Child.RIGHT_TOP) { showToast() }
+            setChildOnClickListener(Child.RIGHT) { showToast() }
+            setChildOnClickListener(Child.RIGHT_BOTTOM) { showToast() }
+            setChildOnClickListener(Child.BOTTOM) { showToast() }
+            setChildOnClickListener(Child.LEFT_BOTTOM) { showToast() }
+            setChildOnClickListener(Child.LEFT) { showToast() }
+            setChildOnClickListener(Child.LEFT_TOP) { showToast() }
         }
 
         with(lava_fab_top_left) {
             setParentOnClickListener { lava_fab_top_left.trigger() }
-            setChildOnClickListener(Child.CHILD_RIGHT) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT) { showToast() }
+            setChildOnClickListener(Child.RIGHT) { showToast() }
+            setChildOnClickListener(Child.LEFT) { showToast() }
         }
 
         with(lava_fab_top_right) {
             setParentOnClickListener { lava_fab_top_right.trigger() }
-            setChildOnClickListener(Child.CHILD_BOTTOM) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT) { showToast() }
+            setChildOnClickListener(Child.BOTTOM) { showToast() }
+            setChildOnClickListener(Child.LEFT) { showToast() }
         }
 
         with(lava_fab_bottom_left) {
             setParentOnClickListener { lava_fab_bottom_left.trigger() }
-            setChildOnClickListener(Child.CHILD_TOP) { showToast() }
-            setChildOnClickListener(Child.CHILD_RIGHT) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT) { showToast() }
+            setChildOnClickListener(Child.TOP) { showToast() }
+            setChildOnClickListener(Child.RIGHT) { showToast() }
+            setChildOnClickListener(Child.LEFT) { showToast() }
         }
 
         with(lava_fab_bottom_right) {
             setParentOnClickListener { lava_fab_bottom_right.trigger() }
-            setChildOnClickListener(Child.CHILD_TOP) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT) { showToast() }
-            setChildOnClickListener(Child.CHILD_LEFT_TOP) { showToast() }
+            setChildOnClickListener(Child.TOP) { showToast() }
+            setChildOnClickListener(Child.LEFT) { showToast() }
+            setChildOnClickListener(Child.LEFT_TOP) { showToast() }
         }
 
         with(lava_fab_left_center) {
             setParentOnClickListener { lava_fab_left_center.trigger() }
-            setChildOnClickListener(Child.CHILD_TOP) { showToast() }
-            setChildOnClickListener(Child.CHILD_BOTTOM) { showToast() }
+            setChildOnClickListener(Child.TOP) { showToast() }
+            setChildOnClickListener(Child.BOTTOM) { showToast() }
         }
     }
 

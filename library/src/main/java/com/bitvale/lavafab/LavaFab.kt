@@ -1,5 +1,6 @@
 package com.bitvale.lavafab
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -36,7 +37,7 @@ class LavaFab : View {
     private var lavaSize = 0f
     private var containerWidth = 0
     private var containerHeight = 0
-    private var childFlag = Child.CHILD_NONE
+    private var childFlag = Child.NONE
 
     private val childIcons = SparseArray<Bitmap?>()
 
@@ -52,7 +53,6 @@ class LavaFab : View {
         }
 
         initParent(lavaSize)
-        setupOnClickHandler()
     }
 
     private fun retrieveAttributes(attrs: AttributeSet, defStyleAttr: Int) {
@@ -60,7 +60,7 @@ class LavaFab : View {
 
         lavaBackgroundColor = typedArray.getColor(R.styleable.LavaFab_lavaBackgroundColor, 0)
         lavaSize = typedArray.getDimension(R.styleable.LavaFab_lavaParentSize, 0f)
-        childFlag = typedArray.getInteger(R.styleable.LavaFab_lavaChild, (Child.CHILD_LEFT or Child.CHILD_TOP))
+        childFlag = typedArray.getInteger(R.styleable.LavaFab_lavaChild, (Child.LEFT or Child.TOP))
         drawShadow = typedArray.getBoolean(R.styleable.LavaFab_lavaDrawShadow, false)
 
         var drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaParentIcon, 0)
@@ -70,42 +70,42 @@ class LavaFab : View {
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaLeftIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         var childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_LEFT, childIcon)
+        childIcons.put(Child.LEFT, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaLeftTopIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_LEFT_TOP, childIcon)
+        childIcons.put(Child.LEFT_TOP, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaTopIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_TOP, childIcon)
+        childIcons.put(Child.TOP, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaRightTopIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_RIGHT_TOP, childIcon)
+        childIcons.put(Child.RIGHT_TOP, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaRightIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_RIGHT, childIcon)
+        childIcons.put(Child.RIGHT, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaRightBottomIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_RIGHT_BOTTOM, childIcon)
+        childIcons.put(Child.RIGHT_BOTTOM, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaBottomIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_BOTTOM, childIcon)
+        childIcons.put(Child.BOTTOM, childIcon)
 
         drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaLeftBottomIcon, 0)
         drawable = context.getVectorDrawable(drawableResId)
         childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_LEFT_BOTTOM, childIcon)
+        childIcons.put(Child.LEFT_BOTTOM, childIcon)
 
         typedArray.recycle()
     }
@@ -115,15 +115,15 @@ class LavaFab : View {
         val radius = lavaSize / 2f
         val padding = radius / 4f
 
-        val left = containsChild(childFlag, Child.CHILD_LEFT)
-        val right = containsChild(childFlag, Child.CHILD_RIGHT)
-        val top = containsChild(childFlag, Child.CHILD_TOP)
-        val bottom = containsChild(childFlag, Child.CHILD_BOTTOM)
-        val leftTop = containsChild(childFlag, Child.CHILD_LEFT_TOP)
-        val rightTop = containsChild(childFlag, Child.CHILD_RIGHT_TOP)
-        val rightBottom = containsChild(childFlag, Child.CHILD_RIGHT_BOTTOM)
-        val leftBottom = containsChild(childFlag, Child.CHILD_LEFT_BOTTOM)
-        val none = childFlag == Child.CHILD_NONE
+        val left = containsChild(childFlag, Child.LEFT)
+        val right = containsChild(childFlag, Child.RIGHT)
+        val top = containsChild(childFlag, Child.TOP)
+        val bottom = containsChild(childFlag, Child.BOTTOM)
+        val leftTop = containsChild(childFlag, Child.LEFT_TOP)
+        val rightTop = containsChild(childFlag, Child.RIGHT_TOP)
+        val rightBottom = containsChild(childFlag, Child.RIGHT_BOTTOM)
+        val leftBottom = containsChild(childFlag, Child.LEFT_BOTTOM)
+        val none = childFlag == Child.NONE
 
         // top & left
         if (top && left && !right && !bottom) {
@@ -241,10 +241,12 @@ class LavaFab : View {
         setMeasuredDimension(containerWidth, containerHeight)
     }
 
-    private fun setupOnClickHandler() {
-        setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) parent.handleOnClick(event.x, event.y)
-            true
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return event?.let {
+            parent.proceedOnTouch(event)
+        } ?: run {
+            false
         }
     }
 
@@ -276,14 +278,14 @@ class LavaFab : View {
      * @param listener The callback that will run
      * @param childType The child fab type. Should be one of the following:
      *
-     * * [Child.CHILD_TOP],
-     * * [Child.CHILD_RIGHT],
-     * * [Child.CHILD_BOTTOM],
-     * * [Child.CHILD_LEFT],
-     * * [Child.CHILD_LEFT_TOP],
-     * * [Child.CHILD_RIGHT_TOP],
-     * * [Child.CHILD_RIGHT_BOTTOM],
-     * * [Child.CHILD_LEFT_BOTTOM],
+     * * [Child.TOP],
+     * * [Child.RIGHT],
+     * * [Child.BOTTOM],
+     * * [Child.LEFT],
+     * * [Child.LEFT_TOP],
+     * * [Child.RIGHT_TOP],
+     * * [Child.RIGHT_BOTTOM],
+     * * [Child.LEFT_BOTTOM],
      */
     fun setChildOnClickListener(@Child.Type childType: Int, listener: LavaView.LavaOnClickListener) {
         parent.setChildOnClickListener(childType, listener)
@@ -295,14 +297,14 @@ class LavaFab : View {
      * @param listener The callback that will run
      * @param childType The child fab type. Should be one of the following:
      *
-     * * [Child.CHILD_TOP],
-     * * [Child.CHILD_RIGHT],
-     * * [Child.CHILD_BOTTOM],
-     * * [Child.CHILD_LEFT],
-     * * [Child.CHILD_LEFT_TOP],
-     * * [Child.CHILD_RIGHT_TOP],
-     * * [Child.CHILD_RIGHT_BOTTOM],
-     * * [Child.CHILD_LEFT_BOTTOM],
+     * * [Child.TOP],
+     * * [Child.RIGHT],
+     * * [Child.BOTTOM],
+     * * [Child.LEFT],
+     * * [Child.LEFT_TOP],
+     * * [Child.RIGHT_TOP],
+     * * [Child.RIGHT_BOTTOM],
+     * * [Child.LEFT_BOTTOM],
      */
     fun setChildOnClickListener(@Child.Type childType: Int, listener: () -> Unit) {
         parent.setChildOnClickListener(childType, listener)
@@ -381,16 +383,16 @@ class LavaFab : View {
      * @param icon The drawable of the icon
      * @param childType The child fab type. Should be one of the following:
      *
-     * * [Child.CHILD_NONE]
-     * * [Child.CHILD_TOP],
-     * * [Child.CHILD_RIGHT],
-     * * [Child.CHILD_BOTTOM],
-     * * [Child.CHILD_LEFT],
-     * * [Child.CHILD_LEFT_TOP],
-     * * [Child.CHILD_RIGHT_TOP],
-     * * [Child.CHILD_RIGHT_BOTTOM],
-     * * [Child.CHILD_LEFT_BOTTOM],
-     * * [Child.CHILD_ALL]
+     * * [Child.NONE]
+     * * [Child.TOP],
+     * * [Child.RIGHT],
+     * * [Child.BOTTOM],
+     * * [Child.LEFT],
+     * * [Child.LEFT_TOP],
+     * * [Child.RIGHT_TOP],
+     * * [Child.RIGHT_BOTTOM],
+     * * [Child.LEFT_BOTTOM],
+     * * [Child.ALL]
      */
     fun setChildIcon(@Child.Type childType: Int, icon: Drawable?) {
         val ic = BitmapUtil.getBitmapFromDrawable(icon)
@@ -404,16 +406,16 @@ class LavaFab : View {
      * @param icon The drawable resource id of the icon
      * @param childType The child fab type. Should be one of the following:
      *
-     * * [Child.CHILD_NONE]
-     * * [Child.CHILD_TOP],
-     * * [Child.CHILD_RIGHT],
-     * * [Child.CHILD_BOTTOM],
-     * * [Child.CHILD_LEFT],
-     * * [Child.CHILD_LEFT_TOP],
-     * * [Child.CHILD_RIGHT_TOP],
-     * * [Child.CHILD_RIGHT_BOTTOM],
-     * * [Child.CHILD_LEFT_BOTTOM],
-     * * [Child.CHILD_ALL]
+     * * [Child.NONE]
+     * * [Child.TOP],
+     * * [Child.RIGHT],
+     * * [Child.BOTTOM],
+     * * [Child.LEFT],
+     * * [Child.LEFT_TOP],
+     * * [Child.RIGHT_TOP],
+     * * [Child.RIGHT_BOTTOM],
+     * * [Child.LEFT_BOTTOM],
+     * * [Child.ALL]
      */
     fun setChildIcon(@Child.Type childType: Int, @DrawableRes iconId: Int) {
         val drawable = VectorDrawableCompat.create(resources, iconId, null)

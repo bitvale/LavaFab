@@ -27,7 +27,7 @@ class Child(val parent: Parent, override val center: PointF, override val radius
     private val angles = DoubleArray(5)
 
     private var initialRadius: Float = 0f
-    var type = CHILD_NONE
+    var type = NONE
         set(value) {
             field = value
             initProperties(field)
@@ -46,56 +46,56 @@ class Child(val parent: Parent, override val center: PointF, override val radius
 
     private fun initProperties(type: Int) {
         when (type) {
-            CHILD_LEFT -> {
+            LEFT -> {
                 angles[0] = toRadians(45.0)
                 angles[1] = toRadians(-45.0)
                 angles[2] = toRadians(60.0)
                 angles[3] = toRadians(-60.0)
                 angles[4] = toRadians(0.0)
             }
-            CHILD_LEFT_TOP -> {
+            LEFT_TOP -> {
                 angles[0] = toRadians(0.0)
                 angles[1] = toRadians(90.0)
                 angles[2] = toRadians(-15.0)
                 angles[3] = toRadians(105.0)
                 angles[4] = toRadians(45.0)
             }
-            CHILD_TOP -> {
+            TOP -> {
                 angles[0] = toRadians(45.0)
                 angles[1] = toRadians(135.0)
                 angles[2] = toRadians(30.0)
                 angles[3] = toRadians(150.0)
                 angles[4] = toRadians(90.0)
             }
-            CHILD_RIGHT_TOP -> {
+            RIGHT_TOP -> {
                 angles[0] = toRadians(90.0)
                 angles[1] = toRadians(180.0)
                 angles[2] = toRadians(75.0)
                 angles[3] = toRadians(195.0)
                 angles[4] = toRadians(135.0)
             }
-            CHILD_RIGHT -> {
+            RIGHT -> {
                 angles[0] = toRadians(135.0)
                 angles[1] = toRadians(225.0)
                 angles[2] = toRadians(120.0)
                 angles[3] = toRadians(240.0)
                 angles[4] = toRadians(180.0)
             }
-            CHILD_RIGHT_BOTTOM -> {
+            RIGHT_BOTTOM -> {
                 angles[0] = toRadians(180.0)
                 angles[1] = toRadians(270.0)
                 angles[2] = toRadians(165.0)
                 angles[3] = toRadians(285.0)
                 angles[4] = toRadians(225.0)
             }
-            CHILD_BOTTOM -> {
+            BOTTOM -> {
                 angles[0] = toRadians(315.0)
                 angles[1] = toRadians(225.0)
                 angles[2] = toRadians(330.0)
                 angles[3] = toRadians(210.0)
                 angles[4] = toRadians(270.0)
             }
-            CHILD_LEFT_BOTTOM -> {
+            LEFT_BOTTOM -> {
                 angles[0] = toRadians(270.0)
                 angles[1] = toRadians(360.0)
                 angles[2] = toRadians(255.0)
@@ -111,41 +111,41 @@ class Child(val parent: Parent, override val center: PointF, override val radius
         radiusOffset = evaluator.evaluate(animatedFraction, 0f, radius / 4f)
 
         when (type) {
-            CHILD_LEFT -> {
+            LEFT -> {
                 center.x = evaluator.evaluate(animatedFraction, parent.center.x - initialRadius / 2,
                         parent.center.x - CHILD_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_LEFT_TOP -> {
+            LEFT_TOP -> {
                 center.x = evaluator.evaluate(animatedFraction, parent.center.x - initialRadius / 2,
                         parent.center.x - CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
                 center.y = evaluator.evaluate(animatedFraction, parent.center.y - initialRadius / 2,
                         parent.center.y - CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_TOP -> {
+            TOP -> {
                 center.y = evaluator.evaluate(animatedFraction, parent.center.y - initialRadius / 2,
                         parent.center.y - CHILD_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_RIGHT_TOP -> {
+            RIGHT_TOP -> {
                 center.x = evaluator.evaluate(animatedFraction, parent.center.x + initialRadius / 2,
                         parent.center.x + CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
                 center.y = evaluator.evaluate(animatedFraction, parent.center.y - initialRadius / 2,
                         parent.center.y - CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_RIGHT -> {
+            RIGHT -> {
                 center.x = evaluator.evaluate(animatedFraction, parent.center.x + initialRadius / 2,
                         parent.center.x + CHILD_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_RIGHT_BOTTOM -> {
+            RIGHT_BOTTOM -> {
                 center.x = evaluator.evaluate(animatedFraction, parent.center.x + initialRadius / 2,
                         parent.center.x + CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
                 center.y = evaluator.evaluate(animatedFraction, parent.center.y + initialRadius / 2,
                         parent.center.y + CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_BOTTOM -> {
+            BOTTOM -> {
                 center.y = evaluator.evaluate(animatedFraction, parent.center.y + initialRadius / 2,
                         parent.center.y + CHILD_DISTANCE_RATIO * parent.radius)
             }
-            CHILD_LEFT_BOTTOM -> {
+            LEFT_BOTTOM -> {
                 center.x = evaluator.evaluate(animatedFraction, parent.center.x - initialRadius / 2,
                         parent.center.x - CHILD_ANGLE_DISTANCE_RATIO * parent.radius)
                 center.y = evaluator.evaluate(animatedFraction, parent.center.y + initialRadius / 2,
@@ -169,14 +169,14 @@ class Child(val parent: Parent, override val center: PointF, override val radius
         parent.drawer.addCircle(center.x, center.y, currentRadius, false)
 
         when (type) {
-            CHILD_LEFT -> drawOnLeftOrRight(canvas, CHILD_LEFT)
-            CHILD_LEFT_TOP -> drawLeftTopOrRightBottom(canvas, CHILD_LEFT_TOP)
-            CHILD_TOP -> drawOnTopOrBottom(canvas, CHILD_TOP)
-            CHILD_RIGHT_TOP -> drawLeftBottomOrRightTop(canvas, CHILD_RIGHT_TOP)
-            CHILD_RIGHT -> drawOnLeftOrRight(canvas, CHILD_RIGHT)
-            CHILD_RIGHT_BOTTOM -> drawLeftTopOrRightBottom(canvas, CHILD_RIGHT_BOTTOM)
-            CHILD_BOTTOM -> drawOnTopOrBottom(canvas, CHILD_BOTTOM)
-            CHILD_LEFT_BOTTOM -> drawLeftBottomOrRightTop(canvas, CHILD_LEFT_BOTTOM)
+            LEFT -> drawOnLeftOrRight(canvas, LEFT)
+            LEFT_TOP -> drawLeftTopOrRightBottom(canvas, LEFT_TOP)
+            TOP -> drawOnTopOrBottom(canvas, TOP)
+            RIGHT_TOP -> drawLeftBottomOrRightTop(canvas, RIGHT_TOP)
+            RIGHT -> drawOnLeftOrRight(canvas, RIGHT)
+            RIGHT_BOTTOM -> drawLeftTopOrRightBottom(canvas, RIGHT_BOTTOM)
+            BOTTOM -> drawOnTopOrBottom(canvas, BOTTOM)
+            LEFT_BOTTOM -> drawLeftBottomOrRightTop(canvas, LEFT_BOTTOM)
         }
 
         if (animatedFraction >= 1) {
@@ -192,7 +192,7 @@ class Child(val parent: Parent, override val center: PointF, override val radius
     }
 
     private fun drawOnLeftOrRight(canvas: Canvas?, direction: Int) {
-        val parentDirector = if (direction == CHILD_LEFT) -1 else 1
+        val parentDirector = if (direction == LEFT) -1 else 1
         val childDirector = -parentDirector
 
         // draw two bezier between circles (circles are still connected)
@@ -253,7 +253,7 @@ class Child(val parent: Parent, override val center: PointF, override val radius
     }
 
     private fun drawOnTopOrBottom(canvas: Canvas?, direction: Int) {
-        val parentDirector = if (direction == CHILD_TOP) -1 else 1
+        val parentDirector = if (direction == TOP) -1 else 1
         val childDirector = -parentDirector
 
         // draw two bezier between circles (circles are still connected)
@@ -314,7 +314,7 @@ class Child(val parent: Parent, override val center: PointF, override val radius
     }
 
     private fun drawLeftTopOrRightBottom(canvas: Canvas?, direction: Int) {
-        val parentDirector = if (direction == CHILD_LEFT_TOP) -1 else 1
+        val parentDirector = if (direction == LEFT_TOP) -1 else 1
         val childDirector = -parentDirector
 
         if (animatedFraction >= 0.8 && animatedFraction < 1) {
@@ -346,7 +346,7 @@ class Child(val parent: Parent, override val center: PointF, override val radius
     }
 
     private fun drawLeftBottomOrRightTop(canvas: Canvas?, direction: Int) {
-        val parentDirector = if (direction == CHILD_LEFT_BOTTOM) -1 else 1
+        val parentDirector = if (direction == LEFT_BOTTOM) -1 else 1
         val childDirector = -parentDirector
 
         if (animatedFraction >= 0.8 && animatedFraction < 1) {
@@ -378,10 +378,12 @@ class Child(val parent: Parent, override val center: PointF, override val radius
     }
 
     override fun handleOnClick(x: Float, y: Float) {
+        if (checkOnClickXY(x, y)) listener?.onClick()
+    }
+
+    fun checkOnClickXY(x: Float, y: Float): Boolean {
         val clickRect = RectF(center.x - radius, center.y - radius, center.x + radius, center.y + radius)
-        if (clickRect.contains(x, y)) {
-            listener?.onClick()
-        }
+        return clickRect.contains(x, y)
     }
 
     override fun setOnClickListener(listener: LavaView.LavaOnClickListener?) {
@@ -396,30 +398,30 @@ class Child(val parent: Parent, override val center: PointF, override val radius
         }
     }
 
-    @IntDef(CHILD_NONE,
-            CHILD_TOP,
-            CHILD_RIGHT,
-            CHILD_BOTTOM,
-            CHILD_LEFT,
-            CHILD_LEFT_TOP,
-            CHILD_RIGHT_TOP,
-            CHILD_RIGHT_BOTTOM,
-            CHILD_LEFT_BOTTOM,
-            CHILD_ALL)
+    @IntDef(NONE,
+            TOP,
+            RIGHT,
+            BOTTOM,
+            LEFT,
+            LEFT_TOP,
+            RIGHT_TOP,
+            RIGHT_BOTTOM,
+            LEFT_BOTTOM,
+            ALL)
     @Retention(AnnotationRetention.SOURCE)
     annotation class Type
 
     companion object {
-        const val CHILD_NONE = 0
-        const val CHILD_TOP = 1
-        const val CHILD_RIGHT = 2
-        const val CHILD_BOTTOM = 4
-        const val CHILD_LEFT = 8
-        const val CHILD_LEFT_TOP = 16
-        const val CHILD_RIGHT_TOP = 32
-        const val CHILD_RIGHT_BOTTOM = 64
-        const val CHILD_LEFT_BOTTOM = 128
-        const val CHILD_ALL = 255
+        const val NONE = 0
+        const val TOP = 1
+        const val RIGHT = 2
+        const val BOTTOM = 4
+        const val LEFT = 8
+        const val LEFT_TOP = 16
+        const val RIGHT_TOP = 32
+        const val RIGHT_BOTTOM = 64
+        const val LEFT_BOTTOM = 128
+        const val ALL = 255
 
         const val CHILD_RADIUS_RATIO = 1.6f
         const val CHILD_DISTANCE_RATIO = 2.6f

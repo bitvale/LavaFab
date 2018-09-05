@@ -15,7 +15,7 @@ Just add LavaFab view in your layout XML and LavaFab library in your project via
 
 ```gradle
 dependencies {
-  implementation 'com.bitvale:lavafab:1.0.0'
+  implementation 'com.bitvale:lavafab:1.0.1'
 }
 ```
 
@@ -63,12 +63,12 @@ Kotlin
 with(lava_fab) {
     setLavaBackgroundResColor(R.color.fab_color)
     setParentOnClickListener { lava_fab_center.trigger() }
-    setChildOnClickListener(Child.CHILD_TOP) { lava_fab_center.collapse() }
-    setChildOnClickListener(Child.CHILD_LEFT) { // some action }
+    setChildOnClickListener(Child.TOP) { lava_fab_center.collapse() }
+    setChildOnClickListener(Child.LEFT) { // some action }
     enableShadow()
     setParentIcon(R.drawable.ic_parent)
-    setChildIcon(Child.CHILD_TOP, R.drawable.ic_child_top)
-    setChildIcon(Child.CHILD_LEFT, R.drawable.ic_child_left)
+    setChildIcon(Child.TOP, R.drawable.ic_child_top)
+    setChildIcon(Child.LEFT, R.drawable.ic_child_left)
 }
 ```
 

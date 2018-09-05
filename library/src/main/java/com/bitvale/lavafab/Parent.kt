@@ -9,6 +9,7 @@ import android.graphics.Canvas
 import android.graphics.PointF
 import android.graphics.RectF
 import android.util.SparseArray
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
 
@@ -22,47 +23,55 @@ class Parent(override val center: PointF, override val radius: Float) : LavaView
     override var icon: Bitmap? = null
     override var listener: LavaView.LavaOnClickListener? = null
 
-    val drawer = Drawer()
     private val childSet = ArrayList<Child>()
     private var parentRadiusOffset = 0f
+    private var isAnimated = false
+
+    private var onClickRadiusOffset = 0f
+        set(value) {
+            field = value
+            container?.invalidate()
+        }
+
+    val drawer = Drawer()
+
     var container: View? = null
     var isExpanded = false
-    private var isAnimated = false
 
     fun initChild(icons: SparseArray<Bitmap?>, left: Boolean, top: Boolean, right: Boolean, bottom: Boolean,
                   leftTop: Boolean, leftBottom: Boolean, rightTop: Boolean, rightBottom: Boolean) {
         val childRadius = radius / Child.CHILD_RADIUS_RATIO
         if (left) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_LEFT
-            icon = icons.get(Child.CHILD_LEFT)
+            type = Child.LEFT
+            icon = icons.get(Child.LEFT)
         })
         if (leftTop) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_LEFT_TOP
-            icon = icons.get(Child.CHILD_LEFT_TOP)
+            type = Child.LEFT_TOP
+            icon = icons.get(Child.LEFT_TOP)
         })
         if (top) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_TOP
-            icon = icons.get(Child.CHILD_TOP)
+            type = Child.TOP
+            icon = icons.get(Child.TOP)
         })
         if (rightTop) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_RIGHT_TOP
-            icon = icons.get(Child.CHILD_RIGHT_TOP)
+            type = Child.RIGHT_TOP
+            icon = icons.get(Child.RIGHT_TOP)
         })
         if (right) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_RIGHT
-            icon = icons.get(Child.CHILD_RIGHT)
+            type = Child.RIGHT
+            icon = icons.get(Child.RIGHT)
         })
         if (rightBottom) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_RIGHT_BOTTOM
-            icon = icons.get(Child.CHILD_RIGHT_BOTTOM)
+            type = Child.RIGHT_BOTTOM
+            icon = icons.get(Child.RIGHT_BOTTOM)
         })
         if (bottom) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_BOTTOM
-            icon = icons.get(Child.CHILD_BOTTOM)
+            type = Child.BOTTOM
+            icon = icons.get(Child.BOTTOM)
         })
         if (leftBottom) childSet.add(Child(this, PointF(center.x, center.y), childRadius).apply {
-            type = Child.CHILD_LEFT_BOTTOM
-            icon = icons.get(Child.CHILD_LEFT_BOTTOM)
+            type = Child.LEFT_BOTTOM
+            icon = icons.get(Child.LEFT_BOTTOM)
         })
     }
 
@@ -78,7 +87,7 @@ class Parent(override val center: PointF, override val radius: Float) : LavaView
         }
 
         drawer.rewindParentCircle()
-        currentRadius = radius - parentRadiusOffset
+        currentRadius = radius - parentRadiusOffset + onClickRadiusOffset
         drawer.addCircle(center.x, center.y, currentRadius, true)
         drawer.drawParentCircle(canvas)
         drawer.drawIcon(canvas, icon, center.x, center.y, currentRadius)
@@ -143,13 +152,39 @@ class Parent(override val center: PointF, override val radius: Float) : LavaView
     }
 
     override fun handleOnClick(x: Float, y: Float) {
-        val clickRect = RectF(center.x - radius, center.y - radius, center.x + radius, center.y + radius)
-        if (clickRect.contains(x, y)) {
+        if (checkOnClickXY(x, y)) {
             listener?.onClick()
         } else {
-            childSet.forEach { it.handleOnClick(x, y) }
+            childSet.forEach {
+                it.handleOnClick(x, y)
+            }
         }
     }
+
+    fun proceedOnTouch(event: MotionEvent): Boolean {
+        val inParent = checkOnClickXY(event.x, event.y)
+        val inChild = if (!inParent) checkChildOnClickXY(event.x, event.y) else false
+        if (inParent) onClickRadiusOffset = 2f
+        when(event.action) {
+            MotionEvent.ACTION_UP -> {
+                if (inParent || inChild) {
+                    onClickRadiusOffset = 0f
+                    handleOnClick(event.x, event.y)
+                }
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (!inParent) onClickRadiusOffset = 0f
+            }
+        }
+        return inParent || inChild
+    }
+
+    private fun checkOnClickXY(x: Float, y: Float): Boolean {
+        val clickRect = RectF(center.x - radius, center.y - radius, center.x + radius, center.y + radius)
+        return clickRect.contains(x, y)
+    }
+
+    private fun checkChildOnClickXY (x: Float, y: Float) = childSet.any{ it.checkOnClickXY(x, y) }
 
     override fun setOnClickListener(listener: LavaView.LavaOnClickListener?) {
         this.listener = listener
