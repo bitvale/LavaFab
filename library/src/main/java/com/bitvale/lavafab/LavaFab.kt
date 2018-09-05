@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.util.SparseArray
 import android.view.MotionEvent
 import android.view.View
@@ -14,9 +13,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import com.bitvale.lavafab.widget.Child
-import com.bitvale.lavafab.widget.LavaView
-import com.bitvale.lavafab.widget.Parent
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.bitvale.lavafab.utils.BitmapUtil
+import com.bitvale.lavafab.utils.getFloatDimen
+import com.bitvale.lavafab.utils.getThemeAccentColor
+import com.bitvale.lavafab.utils.getVectorDrawable
 
 
 /**
@@ -62,40 +63,49 @@ class LavaFab : View {
         childFlag = typedArray.getInteger(R.styleable.LavaFab_lavaChild, (Child.CHILD_LEFT or Child.CHILD_TOP))
         drawShadow = typedArray.getBoolean(R.styleable.LavaFab_lavaDrawShadow, false)
 
-        var drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaParentIcon)
+        var drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaParentIcon, 0)
+        var drawable = context.getVectorDrawable(drawableResId)
         parentIcon = BitmapUtil.getBitmapFromDrawable(drawable)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaLeftIcon)
-        val leftIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_LEFT, leftIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaLeftIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        var childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_LEFT, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaLeftTopIcon)
-        val leftTopIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_LEFT_TOP, leftTopIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaLeftTopIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_LEFT_TOP, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaTopIcon)
-        val topIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_TOP, topIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaTopIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_TOP, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaRightTopIcon)
-        val rightTopIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_RIGHT_TOP, rightTopIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaRightTopIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_RIGHT_TOP, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaRightIcon)
-        val rightIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_RIGHT, rightIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaRightIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_RIGHT, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaRightBottomIcon)
-        val rightBottomIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_RIGHT_BOTTOM, rightBottomIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaRightBottomIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_RIGHT_BOTTOM, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaBottomIcon)
-        val bottomIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_BOTTOM, bottomIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaBottomIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_BOTTOM, childIcon)
 
-        drawable = typedArray.getDrawable(R.styleable.LavaFab_lavaLeftBottomIcon)
-        val leftBottomIcon = BitmapUtil.getBitmapFromDrawable(drawable)
-        childIcons.put(Child.CHILD_LEFT_BOTTOM, leftBottomIcon)
+        drawableResId = typedArray.getResourceId(R.styleable.LavaFab_lavaLeftBottomIcon, 0)
+        drawable = context.getVectorDrawable(drawableResId)
+        childIcon = BitmapUtil.getBitmapFromDrawable(drawable)
+        childIcons.put(Child.CHILD_LEFT_BOTTOM, childIcon)
 
         typedArray.recycle()
     }
@@ -360,8 +370,8 @@ class LavaFab : View {
      *
      * @param icon The drawable resource id of the icon
      */
-    fun setParentIcon(@DrawableRes icon: Int) {
-        val drawable = ContextCompat.getDrawable(context, icon)
+    fun setParentIcon(@DrawableRes iconId: Int) {
+        val drawable = VectorDrawableCompat.create(resources, iconId, null)
         setParentIcon(drawable)
     }
 
@@ -405,8 +415,8 @@ class LavaFab : View {
      * * [Child.CHILD_LEFT_BOTTOM],
      * * [Child.CHILD_ALL]
      */
-    fun setChildIcon(@Child.Type childType: Int, @DrawableRes icon: Int) {
-        val drawable = ContextCompat.getDrawable(context, icon)
+    fun setChildIcon(@Child.Type childType: Int, @DrawableRes iconId: Int) {
+        val drawable = VectorDrawableCompat.create(resources, iconId, null)
         setChildIcon(childType, drawable)
     }
 

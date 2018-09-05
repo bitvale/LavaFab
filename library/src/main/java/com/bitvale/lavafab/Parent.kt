@@ -1,4 +1,4 @@
-package com.bitvale.lavafab.widget
+package com.bitvale.lavafab
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PointF
 import android.graphics.RectF
-import android.util.Log
 import android.util.SparseArray
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator

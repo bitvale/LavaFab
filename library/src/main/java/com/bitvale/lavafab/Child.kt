@@ -1,7 +1,6 @@
-package com.bitvale.lavafab.widget
+package com.bitvale.lavafab
 
 import android.animation.FloatEvaluator
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PointF

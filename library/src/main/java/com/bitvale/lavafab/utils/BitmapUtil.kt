@@ -1,35 +1,23 @@
-package com.bitvale.lavafab
+package com.bitvale.lavafab.utils
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.VectorDrawable
-import android.widget.ImageView
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 
 
 object BitmapUtil {
-
-    fun getBitmapFromImageView(imageView: ImageView): Bitmap? {
-        val drawable = imageView.drawable
-        return if (drawable == null) null
-        else when (drawable::class) {
-            VectorDrawable::class -> getBitmapFromVector(drawable as VectorDrawable)
-            BitmapDrawable::class -> (drawable as BitmapDrawable).bitmap
-            else -> throw ClassCastException(drawable.toString() + " is not supported!")
-        }
-    }
-
     fun getBitmapFromDrawable(drawable: Drawable?): Bitmap? {
         return if (drawable == null) null
         else when (drawable::class) {
-            VectorDrawable::class -> getBitmapFromVector(drawable as VectorDrawable)
+            VectorDrawableCompat::class -> getBitmapFromVector(drawable as VectorDrawableCompat)
             BitmapDrawable::class -> (drawable as BitmapDrawable).bitmap
             else -> throw ClassCastException(drawable.toString() + " is not supported!")
         }
     }
 
-    private fun getBitmapFromVector(vectorDrawable: VectorDrawable): Bitmap {
+    private fun getBitmapFromVector(vectorDrawable: VectorDrawableCompat): Bitmap {
         val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth,
                 vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -37,5 +25,4 @@ object BitmapUtil {
         vectorDrawable.draw(canvas)
         return bitmap
     }
-
 }

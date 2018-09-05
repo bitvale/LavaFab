@@ -1,10 +1,7 @@
-package com.bitvale.lavafab.widget
+package com.bitvale.lavafab
 
 import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.annotation.ColorInt
-import com.bitvale.lavafab.BitmapUtil
 
 /**
  * Created by Alexander Kolpakov on 27.08.2018
@@ -19,6 +16,10 @@ class Drawer {
     private val rectF = RectF()
 
     private var iconRect = RectF(0f, 0f, 0f, 0f)
+    private val iconPaint = Paint().apply {
+        isAntiAlias = true
+        isFilterBitmap = true
+    }
 
     private val mainPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -77,11 +78,18 @@ class Drawer {
 
     fun drawIcon(canvas: Canvas?, icon: Bitmap?, centerX: Float, centerY: Float, radius: Float) {
         icon?.let {
-            iconRect.left = centerX - radius / 2
-            iconRect.top = centerY - radius / 2
-            iconRect.right = centerX + radius / 2
-            iconRect.bottom = centerY + radius / 2
-            canvas?.drawBitmap(it, null, iconRect, null)
+            var widthOffset = icon.width / 2f
+            var heightOffset = icon.height / 2f
+            val maxIconSize = Math.max(icon.height, icon.width)
+            if (maxIconSize > radius) {
+                widthOffset = radius / 2
+                heightOffset = widthOffset
+            }
+            iconRect.left = centerX - widthOffset
+            iconRect.top = centerY - heightOffset
+            iconRect.right = centerX + widthOffset
+            iconRect.bottom = centerY + heightOffset
+            canvas?.drawBitmap(icon, null, iconRect, iconPaint)
         }
     }
 }
